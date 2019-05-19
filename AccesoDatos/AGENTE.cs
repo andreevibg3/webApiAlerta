@@ -21,6 +21,5 @@ namespace AccesoDatos
         public string estado { get; set; }
         public Nullable<System.DateTime> fechaCreacion { get; set; }
         public Nullable<System.DateTime> fechaCierre { get; set; }
-        public string usuarioAsignado { get; set; }
     }
 }
