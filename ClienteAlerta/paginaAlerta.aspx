@@ -5,41 +5,55 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Contenido" runat="server">
     <div class="row">
         <div class="col-md-6">
-            <div class="table-responsive-sm">
-                <asp:GridView Width="100%" DataKeyNames="CODIGO" ID="GridView1" runat="server" BackColor="LightGoldenrodYellow" BorderColor="Tan" BorderWidth="1px" CellPadding="2" ForeColor="Black" GridLines="None" OnRowCommand="GridView1_RowCommand" OnPageIndexChanging="GridView1_PageIndexChanging"  AutoGenerateColumns="false" AllowPaging="True">
-                    <AlternatingRowStyle BackColor="PaleGoldenrod" />
-                    <Columns>
-                        <asp:TemplateField>
-                            <ItemTemplate>
-                                <asp:LinkButton ID="btnEditar" runat="server" CommandName="editar" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>">Asignar</asp:LinkButton>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Asignado a" SortExpression="UsuarioAsignado">
-                            <ItemTemplate>
-                                <asp:DropDownList ID="DropDownList2" Text='<%# Bind("UsuarioAsignado") %>' AppendDataBoundItems="true" runat="server">
-                                    <asp:ListItem Value="">Sin asignar</asp:ListItem>
-                                    <asp:ListItem Value="POLICIA">POLICIA</asp:ListItem>
-                                    <asp:ListItem Value="ABOGADO">ABOGADO</asp:ListItem>
-                                    <asp:ListItem Value="TRABAJADOR_SOCIAL">TRABAJADOR_SOCIAL</asp:ListItem>
-                                </asp:DropDownList>
-                            </ItemTemplate>
-                        </asp:TemplateField>
-                        <asp:BoundField HeaderText="Codigo" DataField="CODIGO" Visible="false"/>
-                        <asp:BoundField HeaderText="Usuario" DataField="usuario" />
-                        <asp:BoundField HeaderText="Estado" DataField="estado" />
-                        <asp:BoundField HeaderText="Fecha" DataField="fechaCreacion" />
-                        
-                    </Columns>
-                    <FooterStyle BackColor="Tan" />
-                    <HeaderStyle BackColor="Tan" Font-Bold="True" />
-                    <PagerStyle BackColor="PaleGoldenrod" ForeColor="DarkSlateBlue" HorizontalAlign="Center" />
-                    <SelectedRowStyle BackColor="DarkSlateBlue" ForeColor="GhostWhite" />
-                    <SortedAscendingCellStyle BackColor="#FAFAE7" />
-                    <SortedAscendingHeaderStyle BackColor="#DAC09E" />
-                    <SortedDescendingCellStyle BackColor="#E1DB9C" />
-                    <SortedDescendingHeaderStyle BackColor="#C2A47B" />
-                </asp:GridView>
-            </div>
+            <asp:ScriptManager ID="ScriptManager1" runat="server" />
+            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                <ContentTemplate>
+                    <div>
+                        <asp:Label ID="Label1" runat="server" Text="Asignar A:"></asp:Label>
+                        <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="false" Style="margin-bottom: 10px; float: right; width: calc(100% - 78px);">
+                            <asp:ListItem Value="-1">Sin asignar</asp:ListItem>
+                            <asp:ListItem Value="POLICIA">POLICIA</asp:ListItem>
+                            <asp:ListItem Value="ABOGADO">ABOGADO</asp:ListItem>
+                            <asp:ListItem Value="TRABAJADOR_SOCIAL">TRABAJADOR_SOCIAL</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                    <div class="table-responsive-sm" style="margin-bottom: 15px;">
+                        <asp:GridView Width="100%" DataKeyNames="CODIGO" ID="GridView1" runat="server" BackColor="LightGoldenrodYellow" BorderColor="Tan" BorderWidth="1px" CellPadding="2" ForeColor="Black" GridLines="None" OnRowCommand="GridView1_RowCommand" AutoGenerateColumns="false" AllowPaging="false">
+                            <AlternatingRowStyle BackColor="PaleGoldenrod" />
+                            <Columns>
+
+                                <%--<asp:TemplateField HeaderText="Asignado a" SortExpression="UsuarioAsignado">
+                        <ItemTemplate>
+                            <asp:DropDownList ID="DropDownList2" Text='<%# Bind("UsuarioAsignado") %>' AppendDataBoundItems="true" runat="server">
+                                <asp:ListItem Value="">Sin asignar</asp:ListItem>
+                                <asp:ListItem Value="POLICIA">POLICIA</asp:ListItem>
+                            </asp:DropDownList>
+                        </ItemTemplate>
+                    </asp:TemplateField>--%>
+
+                                <asp:BoundField HeaderText="Usuario" DataField="usuario" />
+                                <asp:BoundField HeaderText="Estado" DataField="estado" />
+                                <asp:BoundField HeaderText="Fecha" DataField="fechaCreacion" />
+                                <asp:BoundField HeaderText="Asignado A" DataField="UsuarioAsignado" />
+                                <asp:TemplateField>
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="btnEditar" runat="server" CommandName="editar" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>">Asignar</asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                            </Columns>
+                            <FooterStyle BackColor="Tan" />
+                            <HeaderStyle BackColor="Tan" Font-Bold="True" />
+                            <PagerStyle BackColor="PaleGoldenrod" ForeColor="DarkSlateBlue" HorizontalAlign="Center" />
+                            <SelectedRowStyle BackColor="DarkSlateBlue" ForeColor="GhostWhite" />
+                            <SortedAscendingCellStyle BackColor="#FAFAE7" />
+                            <SortedAscendingHeaderStyle BackColor="#DAC09E" />
+                            <SortedDescendingCellStyle BackColor="#E1DB9C" />
+                            <SortedDescendingHeaderStyle BackColor="#C2A47B" />
+                        </asp:GridView>
+                    </div>
+                </ContentTemplate>
+            </asp:UpdatePanel>
         </div>
         <div class="col-md-6">
 
@@ -94,4 +108,5 @@
             <div class="card-columns" id="contenedorAgentes" runat="server"></div>
 
         </div>
+    </div>
 </asp:Content>

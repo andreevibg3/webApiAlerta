@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Data;
 using System.ComponentModel;
+using System.Text;
 
 namespace ClienteAlerta
 {
@@ -50,18 +51,22 @@ namespace ClienteAlerta
             //usurios.Items.Add("POLICIA");
             //usurios.Items.Add("ABOGADO");
             //usurios.Items.Add("TRABAJADOR SOCIAL");
+            if (!IsPostBack)
+            {
+                List<AGENTE> myInstance = GetProductAsync("http://www.alerta.amazonebaycomprasecuador.com/api/Agente");
+                cargarAlertas(myInstance);
+            }
+            cargarGrid();
+        }
+        public void cargarGrid()
+        {
+            List<AGENTE> myInstance = GetProductAsync("http://www.alerta.amazonebaycomprasecuador.com/api/Agente");
             DataTable d = ConvertToDataTable(myInstance);
-            //d.Columns.Remove("CODIGO");
             d.Columns.Remove("localizacion");
-            d.Columns.Remove("fechaCierre"); 
-            //d.Columns.Remove("UsuarioAsignado");
-
-            //d.Columns.Add("hola", usurios);
+            d.Columns.Remove("fechaCierre");
             GridView1.DataSource = d;
             GridView1.DataBind();
-            cargarAlertas(myInstance);
         }
-
         public DataTable ConvertToDataTable<T>(IList<T> data)
         {
             PropertyDescriptorCollection properties =
@@ -96,37 +101,38 @@ namespace ClienteAlerta
             contenedorAgentes.Controls.Add(literal);
         }
 
-        protected void GridView1_PageIndexChanging(Object  sender, GridViewPageEventArgs e)
+        protected void GridView1_PageIndexChanging(Object sender, GridViewPageEventArgs e)
         {
             GridView1.PageIndex = e.NewPageIndex;
         }
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            string url ="http://www.alerta.amazonebaycomprasecuador.com/api/Agente";
+            string url = "http://www.alerta.amazonebaycomprasecuador.com/api/Agente";
             if (e.CommandName == "editar")
             {
                 int index = Convert.ToInt32(e.CommandArgument);
-
-                /*inicio cambio*/
-                GridViewRow curruntRow = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
-
-                DropDownList ddlCopyStatus = (DropDownList)curruntRow.FindControl("DropDownList2") as DropDownList;//copystatus dropdownlist
-                string selectedNewValue = ddlCopyStatus.SelectedValue;
-                //here i want to get the selectedValue
-                /*fin cambio*/
-
-                DropDownList drplist = (DropDownList)GridView1.Rows[index].FindControl("DropDownList2");
                 string usuario = GridView1.DataKeys[index]["CODIGO"].ToString();
                 AGENTE a = new AGENTE();
                 a.CODIGO = Convert.ToInt32(usuario);
-                a.usuarioAsignado = "hola";
-                a.estado = "Procesando";
+                a.usuarioAsignado = DropDownList1.SelectedValue;
+                a.usuarioAsignado = (a.usuarioAsignado.Equals("-1")) ? " " : a.usuarioAsignado;
+                string json = JsonConvert.SerializeObject(a, Formatting.Indented);                
+
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri("http://www.alerta.amazonebaycomprasecuador.com/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("api/Agente"));
-                HttpResponseMessage response = client.PutAsJsonAsync(url, a).Result;
+                var response = client.PutAsJsonAsync(url, a);
+
+                response.Wait();
+
+                if (response.IsCompleted)
+                {
+                    Boolean boolSuccess = response.Result.IsSuccessStatusCode;
+                    cargarGrid();
+                }                
+
             }
         }
     }
