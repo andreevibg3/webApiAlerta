@@ -45,6 +45,15 @@ namespace Datos
         {
             AGENTE respuesta = contexto.AGENTE.Where(x => x.CODIGO == actualizado.CODIGO).Single();
             respuesta.usuarioAsignado = actualizado.usuarioAsignado;
+            respuesta.estado = actualizado.estado;
+            contexto.SaveChanges();
+            return true;
+        }
+        public bool EliminarTodo()
+        {
+            List<AGENTE> respuesta = contexto.AGENTE.ToList();
+            foreach (var a in respuesta)
+                contexto.AGENTE.Remove(a);
             contexto.SaveChanges();
             return true;
         }

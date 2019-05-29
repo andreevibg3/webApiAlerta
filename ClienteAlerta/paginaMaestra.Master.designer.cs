@@ -22,13 +22,31 @@ namespace ClienteAlerta {
         protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
         
         /// <summary>
-        /// btnAgentes control.
+        /// btnActivas control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnAgentes;
+        protected global::System.Web.UI.WebControls.LinkButton btnActivas;
+        
+        /// <summary>
+        /// btnProgreso control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnProgreso;
+        
+        /// <summary>
+        /// btnBorrarTodo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnBorrarTodo;
         
         /// <summary>
         /// Contenido control.

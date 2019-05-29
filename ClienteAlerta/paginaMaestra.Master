@@ -36,9 +36,12 @@
 				            <a class="nav-link dropdown-toggle" id="navAgentes" data-toggle="dropdown">Alertas</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 								<div class="dropdown-divider"></div> 
-                                <a class="dropdown-item" href="PaginaAgentes.aspx?tipo=0">Alertas Activas</a>
+                                <asp:LinkButton ID="btnActivas" class="dropdown-item" href="paginaAlerta.aspx?tipo=1" runat="server" CausesValidation="false" >Alertas activas</asp:LinkButton>
                                 <div class="dropdown-divider"></div> 
-                                <asp:LinkButton ID="btnAgentes" class="dropdown-item" href="PaginaAgentes.aspx?tipo=2" runat="server" CausesValidation="false">Alertas en progreso</asp:LinkButton>		
+                                <asp:LinkButton ID="btnProgreso" class="dropdown-item" href="paginaAlerta.aspx?tipo=2" runat="server" CausesValidation="false">Alertas en progreso</asp:LinkButton>		
+                                 <div class="dropdown-divider"></div> 
+                                <asp:LinkButton ID="btnBorrarTodo" class="dropdown-item" href="paginaAlerta.aspx?tipo=3" runat="server" CausesValidation="false" OnClick="btnActivas_Click">Borrar Alertas</asp:LinkButton>		
+                            
                             </div>
                         </li>
                     </ul>

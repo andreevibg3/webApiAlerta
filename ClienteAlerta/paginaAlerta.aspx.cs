@@ -16,7 +16,7 @@ namespace ClienteAlerta
 {
     public partial class paginaAlerta : System.Web.UI.Page
     {
-        
+        string requerimiento;
         public List<AGENTE> GetProductAsync(string path)
         {
             List<AGENTE> myInstance = new List<AGENTE>();
@@ -30,7 +30,23 @@ namespace ClienteAlerta
         }
         protected void Page_Load(object sender, EventArgs e)
         {
+            requerimiento = Request.QueryString["tipo"];
+            if (string.IsNullOrEmpty(requerimiento))
+                requerimiento = 1.ToString();
             List<AGENTE> myInstance = GetProductAsync("http://www.alerta.amazonebaycomprasecuador.com/api/Agente");
+            if (requerimiento.Equals(1.ToString()))
+                myInstance = myInstance.Where(x => x.estado == "Activo").ToList();
+            else
+                if (requerimiento.Equals(2.ToString()))
+                     myInstance = myInstance.Where(x => x.estado == "Procesando").ToList();
+            if (requerimiento.Equals(3.ToString()))
+            {
+                string url = "http://www.alerta.amazonebaycomprasecuador.com/api/Agente";
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri("http://www.alerta.amazonebaycomprasecuador.com/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                HttpResponseMessage response = client.DeleteAsync(url).Result;
+            }            
             //usurios.Items.Add("POLICIA");
             //usurios.Items.Add("ABOGADO");
             //usurios.Items.Add("TRABAJADOR SOCIAL");
@@ -104,14 +120,13 @@ namespace ClienteAlerta
                 string usuario = GridView1.DataKeys[index]["CODIGO"].ToString();
                 AGENTE a = new AGENTE();
                 a.CODIGO = Convert.ToInt32(usuario);
-                a.usuarioAsignado = drplist.SelectedValue;
-                string json=JsonConvert.SerializeObject(a, Formatting.Indented);
-                var httpContent = new StringContent(json);
+                a.usuarioAsignado = "hola";
+                a.estado = "Procesando";
                 HttpClient client = new HttpClient();
-                var response = client.PutAsync(url, httpContent);
-                if (response.IsCompleted)
-                {
-                }
+                client.BaseAddress = new Uri("http://www.alerta.amazonebaycomprasecuador.com/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("api/Agente"));
+                HttpResponseMessage response = client.PutAsJsonAsync(url, a).Result;
             }
         }
     }

@@ -19,6 +19,8 @@
                                 <asp:DropDownList ID="DropDownList2" Text='<%# Bind("UsuarioAsignado") %>' AppendDataBoundItems="true" runat="server">
                                     <asp:ListItem Value="">Sin asignar</asp:ListItem>
                                     <asp:ListItem Value="POLICIA">POLICIA</asp:ListItem>
+                                    <asp:ListItem Value="ABOGADO">ABOGADO</asp:ListItem>
+                                    <asp:ListItem Value="TRABAJADOR_SOCIAL">TRABAJADOR_SOCIAL</asp:ListItem>
                                 </asp:DropDownList>
                             </ItemTemplate>
                         </asp:TemplateField>
