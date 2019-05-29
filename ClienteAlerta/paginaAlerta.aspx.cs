@@ -16,7 +16,7 @@ namespace ClienteAlerta
 {
     public partial class paginaAlerta : System.Web.UI.Page
     {
-        
+
         public List<AGENTE> GetProductAsync(string path)
         {
             List<AGENTE> myInstance = new List<AGENTE>();
@@ -37,7 +37,7 @@ namespace ClienteAlerta
             DataTable d = ConvertToDataTable(myInstance);
             //d.Columns.Remove("CODIGO");
             d.Columns.Remove("localizacion");
-            d.Columns.Remove("fechaCierre"); 
+            d.Columns.Remove("fechaCierre");
             //d.Columns.Remove("UsuarioAsignado");
 
             //d.Columns.Add("hola", usurios);
@@ -80,32 +80,23 @@ namespace ClienteAlerta
             contenedorAgentes.Controls.Add(literal);
         }
 
-        protected void GridView1_PageIndexChanging(Object  sender, GridViewPageEventArgs e)
+        protected void GridView1_PageIndexChanging(Object sender, GridViewPageEventArgs e)
         {
             GridView1.PageIndex = e.NewPageIndex;
         }
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            string url ="http://www.alerta.amazonebaycomprasecuador.com/api/Agente";
+            string url = "http://www.alerta.amazonebaycomprasecuador.com/api/Agente";
             if (e.CommandName == "editar")
             {
                 int index = Convert.ToInt32(e.CommandArgument);
-
-                /*inicio cambio*/
-                GridViewRow curruntRow = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
-
-                DropDownList ddlCopyStatus = (DropDownList)curruntRow.FindControl("DropDownList2") as DropDownList;//copystatus dropdownlist
-                string selectedNewValue = ddlCopyStatus.SelectedValue;
-                //here i want to get the selectedValue
-                /*fin cambio*/
-
-                DropDownList drplist = (DropDownList)GridView1.Rows[index].FindControl("DropDownList2");
+                // DropDownList drplist = (DropDownList)GridView1.Rows[index].FindControl("DropDownList2");
                 string usuario = GridView1.DataKeys[index]["CODIGO"].ToString();
                 AGENTE a = new AGENTE();
                 a.CODIGO = Convert.ToInt32(usuario);
-                a.usuarioAsignado = drplist.SelectedValue;
-                string json=JsonConvert.SerializeObject(a, Formatting.Indented);
+                a.usuarioAsignado = DropDownList1.SelectedValue;
+                string json = JsonConvert.SerializeObject(a, Formatting.Indented);
                 var httpContent = new StringContent(json);
                 HttpClient client = new HttpClient();
                 var response = client.PutAsync(url, httpContent);
