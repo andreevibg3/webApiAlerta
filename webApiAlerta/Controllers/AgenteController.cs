@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Web.Http;
 
 namespace webApiAlerta.Controllers
 {
+    [RoutePrefix("api/Agente")]
     public class AgenteController : ApiController
     {
         AgenteDatos a = new AgenteDatos();
@@ -19,12 +21,22 @@ namespace webApiAlerta.Controllers
         }
 
         // GET api/values/5
+
+        [HttpGet]
         public AGENTE Get(string usuario)
         {
             return a.SeleccionarAgentePorUsuario(usuario);
         }
 
+        [Route("Asignado")]
+        [HttpGet]
+        public List<AGENTE> GetUsuarioAsignado(string usuario)
+        {
+            return a.SeleccionarAgentePorUsuarioAsignado(usuario);
+        }
+
         // POST api/values
+        [HttpPost]
         public Respuesta Post([FromBody]AGENTE value)
         {
             Respuesta resp = new Respuesta();
@@ -38,8 +50,17 @@ namespace webApiAlerta.Controllers
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
+        [HttpPut]
+        public Respuesta Put([FromBody]AGENTE value)
         {
+            Respuesta resp = new Respuesta();
+            if (a.Actualizar(value))
+                resp.valor = "si valio actualizar";
+            else
+            {
+                resp.valor = "no valio actualizar";
+            }
+            return resp;
         }
 
         // DELETE api/values/5

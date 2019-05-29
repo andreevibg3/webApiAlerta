@@ -22,6 +22,12 @@ namespace Datos
             return respuesta;
         }
 
+        public List<AGENTE> SeleccionarAgentePorUsuarioAsignado(string usuario)
+        {
+            List<AGENTE> respuesta = contexto.AGENTE.Where(x => x.usuarioAsignado == usuario).ToList();
+            return respuesta;
+        }
+
         public List<AGENTE> SeleccionarAgentes()
         {
             List<AGENTE> respuesta = contexto.AGENTE.ToList();
@@ -31,6 +37,14 @@ namespace Datos
         public bool Insertar(AGENTE insertado)
         {
             contexto.AGENTE.Add(insertado);
+            contexto.SaveChanges();
+            return true;
+        }
+
+        public bool Actualizar(AGENTE actualizado)
+        {
+            AGENTE respuesta = contexto.AGENTE.Where(x => x.CODIGO == actualizado.CODIGO).Single();
+            respuesta.usuarioAsignado = actualizado.usuarioAsignado;
             contexto.SaveChanges();
             return true;
         }

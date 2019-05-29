@@ -10,6 +10,9 @@
     <link href="Content/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="crossorigin=""></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.Default.css">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.css">
+    <script src="https://unpkg.com/leaflet.markercluster@1.0.4/dist/leaflet.markercluster.js"></script>
     <title>Alertas</title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
@@ -55,6 +58,6 @@
      </form>
     <script src="Scripts/jquery-3.0.0.min.js"></script>
     <script src="Scripts/bootstrap.min.js"></script>
-    <script src="Scripts/scripts.js"></script>
+     
 </body>
 </html>

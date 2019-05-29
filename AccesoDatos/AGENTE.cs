@@ -16,6 +16,7 @@ namespace AccesoDatos
     {
         public int CODIGO { get; set; }
         public string usuario { get; set; }
+        public string usuarioAsignado { get; set; }
         public string localizacion { get; set; }
         public string descripcion { get; set; }
         public string estado { get; set; }
