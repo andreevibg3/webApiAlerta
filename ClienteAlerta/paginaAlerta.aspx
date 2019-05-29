@@ -3,6 +3,13 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Contenido" runat="server">
+    <script>
+        function verMapa(strLocation) {
+            var partsOfStr = strLocation.replace("Ver", "").trim().split('|');
+            mymap.setView([partsOfStr[0], partsOfStr[1]], 18);
+            //alert("" + strLocation);
+        }
+    </script>
     <div class="row">
         <div class="col-md-6">
             <asp:ScriptManager ID="ScriptManager1" runat="server" />
@@ -40,7 +47,11 @@
                                         <asp:LinkButton ID="btnEditar" runat="server" CommandName="editar" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>">Asignar</asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-
+                                <asp:TemplateField>
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="btnVer" runat="server" CommandName="ver" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" OnClientClick="verMapa($(event.target).text())" Text='<%# "Ver " + Eval("localizacion") %>' Width="35px" Height="20px" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; word-break: break-all; word-wrap: break-word;">Ver</asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                             </Columns>
                             <FooterStyle BackColor="Tan" />
                             <HeaderStyle BackColor="Tan" Font-Bold="True" />

@@ -67,7 +67,7 @@ namespace ClienteAlerta
                 if (requerimiento.Equals(2.ToString()))
                 myInstance = myInstance.Where(x => x.estado == "Asignado").ToList();
             DataTable d = ConvertToDataTable(myInstance);
-            d.Columns.Remove("localizacion");
+            //d.Columns.Remove("localizacion");
             d.Columns.Remove("fechaCierre");
             GridView1.DataSource = d;
             GridView1.DataBind();
