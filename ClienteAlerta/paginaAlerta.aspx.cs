@@ -37,9 +37,9 @@ namespace ClienteAlerta
             DataTable d = ConvertToDataTable(myInstance);
             //d.Columns.Remove("CODIGO");
             d.Columns.Remove("localizacion");
-            d.Columns.Remove("fechaCierre");
+            d.Columns.Remove("fechaCierre"); 
             //d.Columns.Remove("UsuarioAsignado");
-            
+
             //d.Columns.Add("hola", usurios);
             GridView1.DataSource = d;
             GridView1.DataBind();
@@ -80,7 +80,10 @@ namespace ClienteAlerta
             contenedorAgentes.Controls.Add(literal);
         }
 
-
+        protected void GridView1_PageIndexChanging(Object  sender, GridViewPageEventArgs e)
+        {
+            GridView1.PageIndex = e.NewPageIndex;
+        }
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
@@ -88,8 +91,17 @@ namespace ClienteAlerta
             if (e.CommandName == "editar")
             {
                 int index = Convert.ToInt32(e.CommandArgument);
+
+                /*inicio cambio*/
+                GridViewRow curruntRow = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+
+                DropDownList ddlCopyStatus = (DropDownList)curruntRow.FindControl("DropDownList2") as DropDownList;//copystatus dropdownlist
+                string selectedNewValue = ddlCopyStatus.SelectedValue;
+                //here i want to get the selectedValue
+                /*fin cambio*/
+
                 DropDownList drplist = (DropDownList)GridView1.Rows[index].FindControl("DropDownList2");
-                string usuario = GridView1.Rows[index].Cells[2].Text;
+                string usuario = GridView1.DataKeys[index]["CODIGO"].ToString();
                 AGENTE a = new AGENTE();
                 a.CODIGO = Convert.ToInt32(usuario);
                 a.usuarioAsignado = drplist.SelectedValue;

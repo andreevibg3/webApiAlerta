@@ -6,15 +6,15 @@
     <div class="row">
         <div class="col-md-6">
             <div class="table-responsive-sm">
-                <asp:GridView ID="GridView1" runat="server" BackColor="LightGoldenrodYellow" BorderColor="Tan" BorderWidth="1px" CellPadding="2" ForeColor="Black" GridLines="None" OnRowCommand="GridView1_RowCommand">
+                <asp:GridView Width="100%" DataKeyNames="CODIGO" ID="GridView1" runat="server" BackColor="LightGoldenrodYellow" BorderColor="Tan" BorderWidth="1px" CellPadding="2" ForeColor="Black" GridLines="None" OnRowCommand="GridView1_RowCommand" OnPageIndexChanging="GridView1_PageIndexChanging"  AutoGenerateColumns="false" AllowPaging="True">
                     <AlternatingRowStyle BackColor="PaleGoldenrod" />
                     <Columns>
-                        <asp:TemplateField >
+                        <asp:TemplateField>
                             <ItemTemplate>
-                                <asp:LinkButton ID="btnEditar" runat="server" CommandName="editar" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>">editar</asp:LinkButton>
+                                <asp:LinkButton ID="btnEditar" runat="server" CommandName="editar" CommandArgument="<%# ((GridViewRow) Container).RowIndex %>">Asignar</asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Usuario Asignado" SortExpression="UsuarioAsignado">
+                        <asp:TemplateField HeaderText="Asignado a" SortExpression="UsuarioAsignado">
                             <ItemTemplate>
                                 <asp:DropDownList ID="DropDownList2" Text='<%# Bind("UsuarioAsignado") %>' AppendDataBoundItems="true" runat="server">
                                     <asp:ListItem Value="">Sin asignar</asp:ListItem>
@@ -22,6 +22,11 @@
                                 </asp:DropDownList>
                             </ItemTemplate>
                         </asp:TemplateField>
+                        <asp:BoundField HeaderText="Codigo" DataField="CODIGO" Visible="false"/>
+                        <asp:BoundField HeaderText="Usuario" DataField="usuario" />
+                        <asp:BoundField HeaderText="Estado" DataField="estado" />
+                        <asp:BoundField HeaderText="Fecha" DataField="fechaCreacion" />
+                        
                     </Columns>
                     <FooterStyle BackColor="Tan" />
                     <HeaderStyle BackColor="Tan" Font-Bold="True" />
@@ -83,7 +88,7 @@
 
 
 
-</script>
+            </script>
             <div class="card-columns" id="contenedorAgentes" runat="server"></div>
 
         </div>
