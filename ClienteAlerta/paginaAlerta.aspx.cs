@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Data;
 using System.ComponentModel;
+using System.Text;
 
 namespace ClienteAlerta
 {
@@ -30,22 +31,22 @@ namespace ClienteAlerta
         }
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                List<AGENTE> myInstance = GetProductAsync("http://www.alerta.amazonebaycomprasecuador.com/api/Agente");
+                cargarAlertas(myInstance);
+            }
+            cargarGrid();
+        }
+        public void cargarGrid()
+        {
             List<AGENTE> myInstance = GetProductAsync("http://www.alerta.amazonebaycomprasecuador.com/api/Agente");
-            //usurios.Items.Add("POLICIA");
-            //usurios.Items.Add("ABOGADO");
-            //usurios.Items.Add("TRABAJADOR SOCIAL");
             DataTable d = ConvertToDataTable(myInstance);
-            //d.Columns.Remove("CODIGO");
             d.Columns.Remove("localizacion");
             d.Columns.Remove("fechaCierre");
-            //d.Columns.Remove("UsuarioAsignado");
-
-            //d.Columns.Add("hola", usurios);
             GridView1.DataSource = d;
             GridView1.DataBind();
-            cargarAlertas(myInstance);
         }
-
         public DataTable ConvertToDataTable<T>(IList<T> data)
         {
             PropertyDescriptorCollection properties =
@@ -91,18 +92,27 @@ namespace ClienteAlerta
             if (e.CommandName == "editar")
             {
                 int index = Convert.ToInt32(e.CommandArgument);
-                // DropDownList drplist = (DropDownList)GridView1.Rows[index].FindControl("DropDownList2");
                 string usuario = GridView1.DataKeys[index]["CODIGO"].ToString();
                 AGENTE a = new AGENTE();
                 a.CODIGO = Convert.ToInt32(usuario);
                 a.usuarioAsignado = DropDownList1.SelectedValue;
-                string json = JsonConvert.SerializeObject(a, Formatting.Indented);
-                var httpContent = new StringContent(json);
+                a.usuarioAsignado = (a.usuarioAsignado.Equals("-1")) ? " " : a.usuarioAsignado;
+                string json = JsonConvert.SerializeObject(a, Formatting.Indented);                
+
                 HttpClient client = new HttpClient();
-                var response = client.PutAsync(url, httpContent);
+                client.BaseAddress = new Uri("http://www.alerta.amazonebaycomprasecuador.com/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("api/Agente"));
+                var response = client.PutAsJsonAsync(url, a);
+
+                response.Wait();
+
                 if (response.IsCompleted)
                 {
-                }
+                    Boolean boolSuccess = response.Result.IsSuccessStatusCode;
+                    cargarGrid();
+                }                
+
             }
         }
     }
