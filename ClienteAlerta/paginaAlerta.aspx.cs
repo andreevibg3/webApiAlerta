@@ -16,9 +16,10 @@ namespace ClienteAlerta
 {
     public partial class paginaAlerta : System.Web.UI.Page
     {
-        List<AGENTE> myInstance = new List<AGENTE>();
+        
         public List<AGENTE> GetProductAsync(string path)
         {
+            List<AGENTE> myInstance = new List<AGENTE>();
             HttpClient client = new HttpClient();
             HttpResponseMessage response = client.GetAsync(path).Result;
             if (response.IsSuccessStatusCode)
@@ -29,7 +30,7 @@ namespace ClienteAlerta
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-            myInstance = GetProductAsync("http://www.alerta.amazonebaycomprasecuador.com/api/Agente");
+            List<AGENTE> myInstance = GetProductAsync("http://www.alerta.amazonebaycomprasecuador.com/api/Agente");
             //usurios.Items.Add("POLICIA");
             //usurios.Items.Add("ABOGADO");
             //usurios.Items.Add("TRABAJADOR SOCIAL");
