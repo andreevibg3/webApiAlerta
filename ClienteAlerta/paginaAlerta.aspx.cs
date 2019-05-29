@@ -17,7 +17,6 @@ namespace ClienteAlerta
 {
     public partial class paginaAlerta : System.Web.UI.Page
     {
-        string requerimiento;
         public List<AGENTE> GetProductAsync(string path)
         {
             List<AGENTE> myInstance = new List<AGENTE>();
@@ -31,15 +30,10 @@ namespace ClienteAlerta
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-            requerimiento = Request.QueryString["tipo"];
+            string requerimiento = Request.QueryString["tipo"];
             if (string.IsNullOrEmpty(requerimiento))
-                requerimiento = 1.ToString();
-            List<AGENTE> myInstance = GetProductAsync("http://www.alerta.amazonebaycomprasecuador.com/api/Agente");
-            if (requerimiento.Equals(1.ToString()))
-                myInstance = myInstance.Where(x => x.estado == "Activo").ToList();
-            else
-                if (requerimiento.Equals(2.ToString()))
-                     myInstance = myInstance.Where(x => x.estado == "Procesando").ToList();
+                requerimiento = 0.ToString();
+
             if (requerimiento.Equals(3.ToString()))
             {
                 string url = "http://www.alerta.amazonebaycomprasecuador.com/api/Agente";
@@ -47,20 +41,31 @@ namespace ClienteAlerta
                 client.BaseAddress = new Uri("http://www.alerta.amazonebaycomprasecuador.com/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 HttpResponseMessage response = client.DeleteAsync(url).Result;
-            }            
-            //usurios.Items.Add("POLICIA");
-            //usurios.Items.Add("ABOGADO");
-            //usurios.Items.Add("TRABAJADOR SOCIAL");
+            }
             if (!IsPostBack)
             {
                 List<AGENTE> myInstance = GetProductAsync("http://www.alerta.amazonebaycomprasecuador.com/api/Agente");
+                if (requerimiento.Equals(1.ToString()))
+                    myInstance = myInstance.Where(x => x.estado == "Activo").ToList();
+                else
+                    if (requerimiento.Equals(2.ToString()))
+                    myInstance = myInstance.Where(x => x.estado == "Asignado").ToList();
                 cargarAlertas(myInstance);
             }
             cargarGrid();
+
         }
         public void cargarGrid()
         {
+            string requerimiento = Request.QueryString["tipo"];
+            if (string.IsNullOrEmpty(requerimiento))
+                requerimiento = 0.ToString();
             List<AGENTE> myInstance = GetProductAsync("http://www.alerta.amazonebaycomprasecuador.com/api/Agente");
+            if (requerimiento.Equals(1.ToString()))
+                myInstance = myInstance.Where(x => x.estado == "Activo").ToList();
+            else
+                if (requerimiento.Equals(2.ToString()))
+                myInstance = myInstance.Where(x => x.estado == "Asignado").ToList();
             DataTable d = ConvertToDataTable(myInstance);
             d.Columns.Remove("localizacion");
             d.Columns.Remove("fechaCierre");
@@ -117,7 +122,8 @@ namespace ClienteAlerta
                 a.CODIGO = Convert.ToInt32(usuario);
                 a.usuarioAsignado = DropDownList1.SelectedValue;
                 a.usuarioAsignado = (a.usuarioAsignado.Equals("-1")) ? " " : a.usuarioAsignado;
-                string json = JsonConvert.SerializeObject(a, Formatting.Indented);                
+                a.estado = (a.usuarioAsignado.Equals("-1")) ? "Activo" : "Asignado";
+                string json = JsonConvert.SerializeObject(a, Formatting.Indented);
 
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri("http://www.alerta.amazonebaycomprasecuador.com/");
@@ -131,7 +137,7 @@ namespace ClienteAlerta
                 {
                     Boolean boolSuccess = response.Result.IsSuccessStatusCode;
                     cargarGrid();
-                }                
+                }
 
             }
         }

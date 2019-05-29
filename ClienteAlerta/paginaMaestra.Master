@@ -35,13 +35,14 @@
                         <li class="nav-item dropdown">
 				            <a class="nav-link dropdown-toggle" id="navAgentes" data-toggle="dropdown">Alertas</a>
 							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-								<div class="dropdown-divider"></div> 
-                                <asp:LinkButton ID="btnActivas" class="dropdown-item" href="paginaAlerta.aspx?tipo=1" runat="server" CausesValidation="false" >Alertas activas</asp:LinkButton>
                                 <div class="dropdown-divider"></div> 
-                                <asp:LinkButton ID="btnProgreso" class="dropdown-item" href="paginaAlerta.aspx?tipo=2" runat="server" CausesValidation="false">Alertas en progreso</asp:LinkButton>		
+                                <asp:LinkButton ID="LinkButton1" class="dropdown-item" href="paginaAlerta.aspx?tipo=0" runat="server" CausesValidation="false" >Todas</asp:LinkButton>
+								<div class="dropdown-divider"></div> 
+                                <asp:LinkButton ID="btnActivas" class="dropdown-item" href="paginaAlerta.aspx?tipo=1" runat="server" CausesValidation="false" >Alertas Activas</asp:LinkButton>
+                                <div class="dropdown-divider"></div> 
+                                <asp:LinkButton ID="btnProgreso" class="dropdown-item" href="paginaAlerta.aspx?tipo=2" runat="server" CausesValidation="false">Alertas Asignadas</asp:LinkButton>		
                                  <div class="dropdown-divider"></div> 
-                                <asp:LinkButton ID="btnBorrarTodo" class="dropdown-item" href="paginaAlerta.aspx?tipo=3" runat="server" CausesValidation="false" OnClick="btnActivas_Click">Borrar Alertas</asp:LinkButton>		
-                            
+                                <asp:LinkButton ID="btnBorrarTodo" class="dropdown-item" href="paginaAlerta.aspx?tipo=3" runat="server" CausesValidation="false" OnClick="btnActivas_Click">Borrar Alertas</asp:LinkButton>                            
                             </div>
                         </li>
                     </ul>
