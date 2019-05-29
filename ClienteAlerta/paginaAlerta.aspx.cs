@@ -121,8 +121,9 @@ namespace ClienteAlerta
                 AGENTE a = new AGENTE();
                 a.CODIGO = Convert.ToInt32(usuario);
                 a.usuarioAsignado = DropDownList1.SelectedValue;
-                a.usuarioAsignado = (a.usuarioAsignado.Equals("-1")) ? " " : a.usuarioAsignado;
                 a.estado = (a.usuarioAsignado.Equals("-1")) ? "Activo" : "Asignado";
+                a.usuarioAsignado = (a.usuarioAsignado.Equals("-1")) ? " " : a.usuarioAsignado;
+                
                 string json = JsonConvert.SerializeObject(a, Formatting.Indented);
 
                 HttpClient client = new HttpClient();
